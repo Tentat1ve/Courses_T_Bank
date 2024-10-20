@@ -51,8 +51,6 @@ fun main() {
     val petShop = PetShop()
     println("Введите породу: ")
     val name = readLine()
-
-    // Проверяем на null и создаем животное только если имя не null
     if (name != null) {
         val animal = petShop.identifyAnimal(name.trim(), 23.1, 12)
         if (animal != null) {
