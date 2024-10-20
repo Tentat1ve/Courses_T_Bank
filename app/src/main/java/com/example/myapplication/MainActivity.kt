@@ -51,8 +51,12 @@ fun main() {
     val petShop = PetShop()
     println("Введите породу: ")
     val name = readLine()
+    println("Введите возвраст: ")
+    var age :Int = readLine()!!.toInt() 
+    println("Введите вес: ")
+    var weight :Double = readLine()!!.toDouble() 
     if (name != null) {
-        val animal = petShop.identifyAnimal(name.trim(), 23.1, 12)
+        val animal = petShop.identifyAnimal(name.trim(), weight, age)
         if (animal != null) {
             println("Создано животное: ${animal::class.simpleName}, вес: ${animal.weight}, возраст: ${animal.age}")
             when (animal) {
