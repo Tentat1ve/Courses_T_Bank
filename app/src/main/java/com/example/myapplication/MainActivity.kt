@@ -48,25 +48,6 @@ class Scottish(override val weight: Double, override val age: Int) : Cat {
 }
 
 fun main() {
-    val petShop = PetShop()
-    println("Введите породу: ")
-    val name = readLine()
-    println("Введите возвраст: ")
-    var age :Int = readLine()!!.toInt() 
-    println("Введите вес: ")
-    var weight :Double = readLine()!!.toDouble() 
-    if (name != null) {
-        val animal = petShop.identifyAnimal(name.trim(), weight, age)
-        if (animal != null) {
-            println("Создано животное: ${animal::class.simpleName}, вес: ${animal.weight}, возраст: ${animal.age}")
-            when (animal) {
-                is Dog -> println("Тип прикуса: ${animal.biteType}")
-                is Cat -> println("Тип поведения: ${animal.behaviorType}")
-            }
-        } else {
-            println("Неизвестная порода.")
-        }
-    } else {
-        println("Вы не ввели породу.")
-    }
+    val petShop = PetShop()    
+    val animal = petShop.identifyAnimal("хаски", 23.1, 13)    
 }
