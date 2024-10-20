@@ -1,20 +1,70 @@
-package com.example.myapplication
-
-import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+class PetShop {
+    fun identifyAnimal(breed: String, weight: Double, age: Int): Animal? {
+        return when (breed.toLowerCase()) {
+            "хаски" -> Husky(weight, age)
+            "корги" -> Corgi(weight, age)
+            "шотландский кот" -> Scottish(weight, age)
+            "сиамский кот" -> Siamese(weight, age)
+            else -> null
         }
+    }
+}
+
+interface Animal {
+    val weight: Double
+    val age: Int
+}
+
+interface Cat : Animal {
+    val behaviorType: BehaviorType
+}
+
+interface Dog : Animal {
+    val biteType: BiteType
+}
+
+enum class BiteType {
+    DIRECT, OVERBITE, UNDERBITE
+}
+
+enum class BehaviorType {
+    ACTIVE, PASSIVE
+}
+
+class Husky(override val weight: Double, override val age: Int) : Dog {
+    override val biteType = BiteType.DIRECT
+}
+
+class Corgi(override val weight: Double, override val age: Int) : Dog {
+    override val biteType = BiteType.UNDERBITE
+}
+
+class Siamese(override val weight: Double, override val age: Int) : Cat {
+    override val behaviorType = BehaviorType.ACTIVE
+}
+
+class Scottish(override val weight: Double, override val age: Int) : Cat {
+    override val behaviorType = BehaviorType.PASSIVE
+}
+
+fun main() {
+    val petShop = PetShop()
+    println("Введите породу: ")
+    val name = readLine()
+
+    // Проверяем на null и создаем животное только если имя не null
+    if (name != null) {
+        val animal = petShop.identifyAnimal(name.trim(), 23.1, 12)
+        if (animal != null) {
+            println("Создано животное: ${animal::class.simpleName}, вес: ${animal.weight}, возраст: ${animal.age}")
+            when (animal) {
+                is Dog -> println("Тип прикуса: ${animal.biteType}")
+                is Cat -> println("Тип поведения: ${animal.behaviorType}")
+            }
+        } else {
+            println("Неизвестная порода.")
+        }
+    } else {
+        println("Вы не ввели породу.")
     }
 }
